@@ -2,5 +2,23 @@
     ViewBag.Title = "GW2 API";
 }
 
-<h2></h2>
-
+<div class="row" ng-controller="gw2api">
+    <div class="col-lg-3">
+        <h2>Worlds</h2>
+        <div class="list-group">
+            <a href="#" class="animate-show-hide list-group-item {{w.active}}" ng-repeat="w in worlds | orderBy:'name'" ng-click="setWorld(w.id)">{{w.name}}</a>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <h2>Maps</h2>
+        <div class="list-group">
+            <a href="#" class="animate-show-hide list-group-item {{m.active}}" ng-repeat="m in maps| orderBy:'name'" ng-click="setMap(m.id)">{{m.name}}</a>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <h2>Events</h2>
+        <div class="list-group">
+            <a href="#" class="animate-show-hide list-group-item alert-{{e.status}}" ng-repeat="e in events | orderBy:'name'">{{e.name}}</a>
+        </div>
+    </div>
+</div>

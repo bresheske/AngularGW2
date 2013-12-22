@@ -6,22 +6,21 @@
     <title>@ViewBag.Title</title>
 
     <script src="~/Scripts/jquery-2.0.3.min.js"></script>
-    <script src="~/Scripts/jquery-2.0.3.intellisense.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-animate.min.js"></script>
 
     <script src="~/Scripts/api.js"></script>
+    <script src="~/Scripts/jquery.nomove.js"></script>
 
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 
-
-
 </head>
 <body>
     <div class="container">
-        
+        @RenderBody()
     </div>
 </body>
 </html>
