@@ -1,4 +1,4 @@
-﻿var gw2app = angular.module('gw2api', []);
+﻿var gw2app = angular.module('gw2api', ['ngAnimate']);
 
 // Controller for our worlds object.
 gw2app.controller('gw2api', function ($scope, $http) {
@@ -38,6 +38,7 @@ gw2app.controller('gw2api', function ($scope, $http) {
                 w.active = null;
         });
     }
+
     $scope.setMap = function (mid) {
         $scope.selectedMap = mid;
         $scope.loadEvents();
@@ -50,10 +51,9 @@ gw2app.controller('gw2api', function ($scope, $http) {
                 m.active = null;
         });
     }
+
     // Event handler for loading in events for a world/map pair.
     $scope.loadEvents = function () {
-
-        console.dir($scope.selectedWorld);
 
         // Have to had previously selected a map and world.
         if ($scope.selectedWorld == 0 || $scope.selectedMap == 0)
@@ -62,7 +62,25 @@ gw2app.controller('gw2api', function ($scope, $http) {
         // Call out to the guildwars2 API and grab the actual events.
         $http({ method: 'GET', url: 'https://api.guildwars2.com/v1/events.json?world_id=' + $scope.selectedWorld + "&map_id=" + $scope.selectedMap }).
             success(function (data, status, headers, config) {
-                $scope.events = data.events;
+
+                // First filter out the inactive.
+                $scope.events = data.events.filter(function (element, index, array) {
+                    return element.state == "Active"
+                        || element.state == "Warmup"
+                        || element.state == "Preparation";
+                });
+
+                // Now sort them.
+                $scope.events.sort(function (a, b) {
+                    if (a.state == b.state)
+                        return 0;
+                    else if (a.state == "Active")
+                        return -1;
+                    else if (a.state == "Preparation" && b.state != "Active")
+                        return -1;
+                    else
+                        return 1;
+                });
                 
                 $scope.events.forEach(function (e) {
                     // Attach the name to each event.
@@ -70,19 +88,16 @@ gw2app.controller('gw2api', function ($scope, $http) {
                         if (evtn.id == e.event_id)
                             return evtn;
                     });
-                    // E is the displayed Event.
                     e.name = evtname[0].name;
 
                     // Attach the status to each event.
-                    if (e.state == "Success")
+                    if (e.state == "Active")
                         e.status = "success";
-                    else if (e.state == "Fail")
-                        e.status = "danger";
                     else if (e.state == "Preparation")
                         e.status = "info";
+                    else
+                        e.status = "warning";
                 });
-
-                // Attach the status to each event.
 
             });
     };
