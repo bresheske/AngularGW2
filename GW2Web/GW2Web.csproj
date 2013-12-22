@@ -163,6 +163,7 @@
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Content\angular.animations.css" />
+    <None Include="Properties\PublishProfiles\gw.resheske.net.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\api.js" />
     <Content Include="Scripts\bootstrap.js" />
